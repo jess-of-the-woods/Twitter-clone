@@ -1,13 +1,11 @@
-// var bcrypt = require('bcrypt')
-var bcrypt = require('bcrypt-node')
-var config = require('./config.js')
+var bcrypt = require('bcrypt')
+var router = require('express').Router()
+  //=========================================//
+  //========== GET routes ===================//
+  //=========================================//
 
 module.exports = function(knex) {
-  var app = config(knex)
-  var serverSideRenderingRoutes = require('./routes/server-side')(knex)
-  var apiRoutes = require('./routes/api')(knex)
-
-  app.get('/', function (req, res) {
+  router.get('/', function (req, res) {
     if (!req.session.userId) {
       res.redirect('/signIn');
     } else {
@@ -15,7 +13,7 @@ module.exports = function(knex) {
     }
   })
 
-  app.get('/newTweet', function(req, res) {
+  router.get('/newTweet', function(req, res) {
     if (!req.session.userId) {
       res.redirect('/signIn');
     } else {
@@ -23,15 +21,15 @@ module.exports = function(knex) {
     }
   })
 
-  app.get('/signUp', function (req, res) {
+  router.get('/signUp', function (req, res) {
     res.render('signUp');
   });
 
-  app.get('/signIn', function (req, res) {
+  router.get('/signIn', function (req, res) {
     res.render('signIn');
   });
 
-  app.get('/secret', function(req, res){
+  router.get('/secret', function(req, res){
     if (!req.session.userId) {
       res.redirect('/signIn')
     } else {
@@ -39,7 +37,7 @@ module.exports = function(knex) {
     }
   })
 
-  app.get('/allTweets', function (req, res) {
+  router.get('/allTweets', function (req, res) {
     if (!req.session.userId) {
       res.redirect('/signIn')
     } else {
@@ -50,7 +48,7 @@ module.exports = function(knex) {
     }
   })
 
-  app.get('/user/:id', function (req, res) {
+  router.get('/user/:id', function (req, res) {
     if (!req.session.userId) {
       res.redirect('/signIn')
     } else {
@@ -61,21 +59,21 @@ module.exports = function(knex) {
     }
   })
 
-  app.get('/user/:id/follow', function(req, res){
+  router.get('/user/:id/follow', function(req, res){
     knex('follows').insert({followerId: req.session.userId, followingId: req.params.id})
     .then(function(data){
       console.log('success!' + req.session.userId + 'follows' + req.params.id + '(bam!)')
     })
   })
 
-  app.get('/allFollowing/:id', function (req, res) {
+  router.get('/allFollowing/:id', function (req, res) {
       knex.from('follows').innerJoin('users', 'id', 'followerId').where( 'followerId', req.params.id )
       .then(function(data) {
         res.render('follows', { userId: req.params.id, data: data })
       })
   })
 
-  app.get('/signOut', function (req, res) {
+  router.get('/signOut', function (req, res) {
     req.session.destroy()
     res.render('signOut');
   })
@@ -84,7 +82,7 @@ module.exports = function(knex) {
   //============= POST routes ===============//
   //=========================================//
 
-  app.post('/newTweet', function (req, res) {
+  router.post('/newTweet', function (req, res) {
     knex('tweets').insert({ tweeted: req.body.tweeted, userId: req.session.userId })
     .then(function(data){
       res.redirect('allTweets')
@@ -92,11 +90,11 @@ module.exports = function(knex) {
     })
   })
 
-  app.post('/signUp', function (req, res) {
+  router.post('/signUp', function (req, res) {
     if (req.body.email === '') {
       res.redirect('/signUp')
     }
-    var hash = bcrypt.hashSync( req.body.password)
+    var hash = bcrypt.hashSync( req.body.password, 10 )
     knex('users').insert({ email: req.body.email, hashed_password: hash })
     .then(function(data){
       console.log('this is "data" from sign-up', data)
@@ -111,7 +109,7 @@ module.exports = function(knex) {
     })
   })
 
-  app.post('/signIn', function(req, res){
+  router.post('/signIn', function(req, res){
     knex('users').where('email', req.body.email)
       .then(function(data) {
         console.log('this is "data" from sign in: ', data)
@@ -135,9 +133,5 @@ module.exports = function(knex) {
         res.redirect('/signUp')
     })
   })
-
-  app.use(serverSideRenderingRoutes)
-  app.use('/api/v1', apiRoutes)
-
-  return app
+  return router
 }
