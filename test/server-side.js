@@ -126,6 +126,6 @@ test('signing in w/ blank fields redirects to /signIn', function(t){
 //we need this to close the database after all the tests have run
 //what happens if you delete it?
 test('END', function(t) {
-  app.knex.destroy()
   t.end()
+  process.exit()
 })
