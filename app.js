@@ -11,7 +11,7 @@ module.exports = function(knex) {
     if (!req.session.userId) {
       res.redirect('/signIn');
     } else {
-      res.render('secret', { id: req.session.userId })
+      res.render('secret', { id: req.session.userId, layout: '_layout' })
     }
   })
 
