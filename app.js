@@ -1,12 +1,17 @@
-var config = require('./config.js')
+var createApp = require('./config.js')
+var apiRouteGenerator = require('./routes/api')
+var serverRouteGenerator = require('./routes/server-side')
 
-module.exports = function(knex) {
-  var app = config(knex)
-  var serverSideRenderingRoutes = require('./routes/server-side')(knex)
-  var apiRoutes = require('./routes/api')(knex)
+function appGenerator(knex) {
+  var app = createApp(knex)
+
+  var serverSideRenderingRoutes = serverRouteGenerator(knex)
+  var apiRoutes = apiRouteGenerator(knex)
 
   app.use(serverSideRenderingRoutes)
   app.use('/api/v1', apiRoutes)
 
   return app
 }
+
+module.exports = appGenerator

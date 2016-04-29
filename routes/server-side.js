@@ -1,10 +1,11 @@
 var bcrypt = require('bcrypt')
-var router = require('express').Router()
+var express = require('express')
+var router = express.Router()
   //=========================================//
   //========== GET routes ===================//
   //=========================================//
 
-module.exports = function(knex) {
+function generateServerRoutes(knex) {
   router.get('/', function (req, res) {
     if (!req.session.userId) {
       res.redirect('/signIn');
@@ -135,3 +136,5 @@ module.exports = function(knex) {
   })
   return router
 }
+
+module.exports = generateServerRoutes

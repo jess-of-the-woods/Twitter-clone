@@ -7,7 +7,11 @@ var knex = require('knex')({
   useNullAsDefault: true
 })
 
-var app = require('./app')(knex)
+var appGenerator = require('./app')
+var app = appGenerator(knex)
+
+//var app = require('./app')(knex)
+
 var port = process.env.PORT || 3000
 
 app.listen(port, function () {

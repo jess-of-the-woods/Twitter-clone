@@ -1,6 +1,6 @@
 var router = require('express').Router()
 
-module.exports = function(knex) {
+function generateApiRoutes(knex) {
   router.get('/tweets', function(req, res) {
     if (!req.session.userId) {
       res.send('permission denied')
@@ -14,3 +14,5 @@ module.exports = function(knex) {
 
   return router
 }
+
+module.exports = generateApiRoutes
