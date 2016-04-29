@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt')
+var bcrypt = require('bcrypt-node')
 var router = require('express').Router()
   //=========================================//
   //========== GET routes ===================//
@@ -94,7 +94,7 @@ module.exports = function(knex) {
     if (req.body.email === '') {
       res.redirect('/signUp')
     }
-    var hash = bcrypt.hashSync( req.body.password, 10 )
+    var hash = bcrypt.hashSync( req.body.password)
     knex('users').insert({ email: req.body.email, hashed_password: hash })
     .then(function(data){
       console.log('this is "data" from sign-up', data)
