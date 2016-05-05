@@ -11,7 +11,9 @@ module.exports = function(knex) {
     if (!req.session.userId) {
       res.redirect('/signIn');
     } else {
-      res.render('secret', { id: req.session.userId })
+      // res.render('secret', { id: req.session.userId })
+      res.render('secret', { id: req.session.userId, layout: '_layout'})
+
     }
   })
 
@@ -19,23 +21,23 @@ module.exports = function(knex) {
     if (!req.session.userId) {
       res.redirect('/signIn');
     } else {
-      res.render('tweetPost', { id: req.session.userId })
+      res.render('tweetPost', { id: req.session.userId, layout: '_layout' })
     }
   })
 
   app.get('/signUp', function (req, res) {
-    res.render('signUp');
+    res.render('signUp', {layout: '_layout'});
   });
 
   app.get('/signIn', function (req, res) {
-    res.render('signIn');
+    res.render('signIn', {layout: '_layout'});
   });
 
   app.get('/secret', function(req, res){
     if (!req.session.userId) {
       res.redirect('/signIn')
     } else {
-      res.render('secret', { userId: req.session.userId })
+      res.render('secret', { userId: req.session.userId, layout: '_layout' })
     }
   })
 
@@ -45,7 +47,7 @@ module.exports = function(knex) {
     } else {
       knex.select().table('tweets')
       .then(function(data) {
-        res.render('viewAllTweets', { userId: req.session.userId, data: data })
+        res.render('viewAllTweets', { userId: req.session.userId, data: data, layout: '_layout'})
       })
     }
   })
@@ -56,7 +58,7 @@ module.exports = function(knex) {
     } else {
     knex('tweets').where('userId', req.params.id)
       .then(function(data) {
-        res.render('userProfileAndTweets', { userId: req.params.id, data: data })
+        res.render('userProfileAndTweets', { userId: req.params.id, data: data, layout: '_layout'})
       })
     }
   })
@@ -71,13 +73,13 @@ module.exports = function(knex) {
   app.get('/allFollowing/:id', function (req, res) {
       knex.from('follows').innerJoin('users', 'id', 'followerId').where( 'followerId', req.params.id )
       .then(function(data) {
-        res.render('follows', { userId: req.params.id, data: data })
+        res.render('follows', { userId: req.params.id, data: data, layout: '_layout'})
       })
   })
 
   app.get('/signOut', function (req, res) {
     req.session.destroy()
-    res.render('signOut');
+    res.render('signOut', {layout: '_layout'});
   })
 
   //=========================================//

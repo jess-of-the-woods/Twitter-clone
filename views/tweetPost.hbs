@@ -1,18 +1,12 @@
-<html>
-<head>
-  <title>Post a new Creet</title>
-  <link rel='stylesheet' type='text/css' href='main.css'></link>
-</head>
-<body>
-<h2>Welcome to Critter, Cretin #{{id}}, soon to replace Twitter</h2>
-<h3>Post a new creet</h3>
+<div><img id="logo" src="./img/critter_logo.png" alt="critter logo"></div>
+<h2>Welcome to Critter, Cretin #{{id}}!</h2>
+<h4>Post a new creet</h4>
 <form action='/newTweet' method='POST'>
-  <input type='text' name='tweeted' placeholder="Creet here.." autofocus></input>
-  <input type='submit' value='submit'></input>
+  <input type='text' name='tweeted' placeholder="Creet here.." autofocus class='formField'></input>
+  <input type='submit' value='submit' class='submitButton'></input>
 </form>
-<a href="/allTweets">View All Creets</a> |
-<a href='/signOut'>Sign Out</a>
-<br>
+<a href="/allTweets">View All Creets</a><span id="tube"> |</span>
+<a href='/signOut'>Sign Out ></a>
 
-</body>
-</html>
+
+<!-- <h2>Welcome to Critter, Cretin #{{id}}, soon to replace Twitter</h2> -->

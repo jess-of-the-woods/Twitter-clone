@@ -1,21 +1,15 @@
-<html>
-<head>
-  <title>Cretin #{{userId}}'s profile</title>
-  <link rel='stylesheet' type='text/css' href='../main.css'></link>
-</head>
-<body>
+  <div><img id="logo" src="/img/critter_logo.png" alt="critter logo"></div>
   <h1>Cretin #{{userId}}'s profile</h1>
-  <h2>Their creets:</h2>
-  <div>
-  {{#each data}}
-    <p> * "{{this.tweeted}}"</p>
-  {{/each}}
+  <h4>Their creets:</h4>
+  <div class="creetPostContainer">
+    <div>
+    {{#each data}}
+      <p> # "{{this.tweeted}}"</p>
+    {{/each}}
+    </div>
   </div>
   <a href='/user/{{userId}}/follow'>Follow</a> |
   <a href='/allFollowing/{{userId}}'>Who is this cretin following</a> |
   <a href="/newTweet">Post a Creet</a> |
   <a href='/allTweets'>View All</a> |
   <a href="/signOut">Sign Out</a>
-  <br>
-</body>
-</html>

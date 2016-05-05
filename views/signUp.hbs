@@ -1,17 +1,9 @@
-<html>
-<head>
-  <title>Sign Up to Critter</title>
-</head>
-<body>
-  <h2>Sign Up to Critter!</h2>
+<div><img id="logo" src="./img/critter_logo.png" alt="critter logo"></div>
+<h2>Sign Up to Critter!</h2>
   <form action='/signUp' method='POST'>
-    <input type='text' placeholder="email" name='email' autofocus></input>
-    <input type='password' placeholder="password" name='password'></input>
-    <input type='submit' value='submit'></input>
+    <input type='text' placeholder="email" name='email' autofocus class='formField'></input>
+    <input type='password' placeholder="password" name='password' class='formField'></input>
+    <input type='submit' value='submit' class='submitButton'></input>
   </form>
   <a href="/signIn">Sign In</a> |
   <a href="/">Post a Creet</a>
-  <br>
-  <link rel='stylesheet' type='text/css' href='main.css'></link>
-</body>
-</html>
